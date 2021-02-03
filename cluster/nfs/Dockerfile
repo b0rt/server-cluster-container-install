@@ -22,7 +22,6 @@ COPY ./docker/install/* /root/install/
 
 RUN chmod -R 755 /root/install/
 
-RUN ls /root/install/
 ##
 ## configure nfs
 # @todo review setup step
