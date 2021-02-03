@@ -37,6 +37,14 @@ services:
     build:
       context: ./cluster/nfs
       dockerfile: Dockerfile
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    ports:
+      - "111:111"
+      - "2049:2049"
   frontend:
     build:
       context: ./cluster/fe
