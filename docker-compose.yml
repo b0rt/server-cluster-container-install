@@ -49,10 +49,21 @@ services:
     build:
       context: ./cluster/fe
       dockerfile: Dockerfile
-  fontend_additional:
-    build:
-      context: ./cluster/fe_additional
-      dockerfile: Dockerfile
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    ports:
+      - "80:80"
+      - "443:443"
+      - "1935:1935"
+      - "88:88"
+      - "8443:8443"
+  #  fontend_additional:
+  #    build:
+  #      context: ./cluster/fe_additional
+  #      dockerfile: Dockerfile
   nginx:
     build:
       context: ./cluster/nginx_vod

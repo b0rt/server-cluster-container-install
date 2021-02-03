@@ -15,10 +15,6 @@ EXPOSE 111/tcp 111/udp 2049/tcp 2049/udp
 
 RUN mkdir /root/install
 COPY ./docker/install/* /root/install/
-#COPY ./docker/install/default.config.ans /root/install/default.config.ans
-#COPY ./docker/install/nfs_run.sh /root/install/nfs_run.sh
-#COPY ./docker/install/nfs_settings.sh /root/install/nfs_settings.sh
-#COPY ./docker/install/kaltura.template.ans /root/install/kaltura.template.ans
 
 RUN chmod -R 755 /root/install/
 
