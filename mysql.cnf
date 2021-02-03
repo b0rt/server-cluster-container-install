@@ -1,0 +1,7 @@
+[mysqld]
+sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
+lower_case_table_names = 1
+innodb_file_per_table
+innodb_log_file_size=32M
+open_files_limit = 20000
+max_allowed_packet = 16M

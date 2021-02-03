@@ -1,0 +1,63 @@
+version: "3"
+
+services:
+  phpmyadmin:
+    restart: unless-stopped
+    image: phpmyadmin/phpmyadmin
+    env_file:
+      - ./mysql.env
+    ports:
+      - "8080:80"
+  db:
+    image: percona:5.5
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./mysql.cnf:/etc/mysql/conf.d/extra.cnf
+    env_file:
+      - ./mysql.env
+  dwh:
+    build:
+      context: ./cluster/dwh
+      dockerfile: Dockerfile
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    ports:
+      - "80:80"
+      - "443:443"
+      - "1935:1935"
+      # monit port 2812 https://github.com/kaltura/platform-install-packages/issues/590
+      - "2812:2812"
+      - "3306:3306"
+      - "88:88"
+      - "8443:8443"
+  nfs:
+    build:
+      context: ./cluster/nfs
+      dockerfile: Dockerfile
+  frontend:
+    build:
+      context: ./cluster/fe
+      dockerfile: Dockerfile
+  fontend_additional:
+    build:
+      context: ./cluster/fe_additional
+      dockerfile: Dockerfile
+  nginx:
+    build:
+      context: ./cluster/nginx_vod
+      dockerfile: Dockerfile
+  nginxlb:
+    build:
+      context: ./cluster/nginx_load_balancer
+      dockerfile: Dockerfile
+  sphinx:
+    build:
+      context: ./cluster/sphinx
+      dockerfile: Dockerfile
+
+volumes:
+  dbdata:
+    driver: local
